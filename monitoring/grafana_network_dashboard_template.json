@@ -1,0 +1,151 @@
+{
+  "dashboard": {
+    "id": null,
+    "uid": null,
+    "title": "{{ device_name }} - Network Device Dashboard",
+    "tags": ["network", "device"],
+    "timezone": "browser",
+    "schemaVersion": 27,
+    "version": 0,
+    "refresh": "5s",
+    "panels": [
+      {
+        "type": "graph",
+        "title": "CPU Usage (%)",
+        "gridPos": {
+          "x": 0,
+          "y": 0,
+          "w": 12,
+          "h": 8
+        },
+        "targets": [
+          {
+            "expr": "avg by (instance) (rate(node_cpu_seconds_total{instance=\"{{ device_ip }}\",mode=\"system\"}[5m])) * 100",
+            "legendFormat": "CPU Usage - {{ device_ip }}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "percent",
+            "min": 0,
+            "max": 100
+          },
+          {
+            "format": "short"
+          }
+        ]
+      },
+      {
+        "type": "graph",
+        "title": "Memory Usage",
+        "gridPos": {
+          "x": 0,
+          "y": 8,
+          "w": 12,
+          "h": 8
+        },
+        "targets": [
+          {
+            "expr": "100 - (node_memory_MemAvailable_bytes{instance=\"{{ device_ip }}\"} / node_memory_MemTotal_bytes{instance=\"{{ device_ip }}\"} * 100)",
+            "legendFormat": "Memory Usage - {{ device_ip }}",
+            "refId": "A"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "percent",
+            "min": 0,
+            "max": 100
+          },
+          {
+            "format": "short"
+          }
+        ]
+      },
+      {
+        "type": "graph",
+        "title": "Network Interface Traffic",
+        "gridPos": {
+          "x": 12,
+          "y": 0,
+          "w": 12,
+          "h": 8
+        },
+        "targets": [
+          {
+            "expr": "rate(ifInOctets{instance=\"{{ device_ip }}\"}[5m])",
+            "legendFormat": "Inbound Traffic - {{ device_ip }}",
+            "refId": "A"
+          },
+          {
+            "expr": "rate(ifOutOctets{instance=\"{{ device_ip }}\"}[5m])",
+            "legendFormat": "Outbound Traffic - {{ device_ip }}",
+            "refId": "B"
+          }
+        ],
+        "yaxes": [
+          {
+            "format": "Bps",
+            "min": 0
+          },
+          {
+            "format": "short"
+          }
+        ]
+      },
+      {
+        "type": "stat",
+        "title": "Uptime",
+        "gridPos": {
+          "x": 12,
+          "y": 8,
+          "w": 6,
+          "h": 4
+        },
+        "targets": [
+          {
+            "expr": "node_time_seconds{instance=\"{{ device_ip }}\"}",
+            "legendFormat": "Uptime",
+            "refId": "A"
+          }
+        ],
+        "valueName": "current",
+        "stat": "max",
+        "format": "time_duration",
+        "colorBackground": true
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "timepicker": {
+      "refresh_intervals": ["5s", "10s", "30s", "1m", "5m", "15m", "1h"],
+      "time_options": ["5m", "15m", "1h", "6h", "12h", "24h"]
+    },
+    "templating": {
+      "list": [
+        {
+          "type": "datasource",
+          "name": "Prometheus",
+          "query": "prometheus",
+          "refresh": 1,
+          "options": []
+        }
+      ]
+    },
+    "annotations": {
+      "list": [
+        {
+          "name": "Annotations & Alerts",
+          "datasource": "Prometheus",
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(255, 96, 96, 1)",
+          "type": "dashboard"
+        }
+      ]
+    }
+  }
+}
