@@ -9,8 +9,8 @@ CMDB_API_URL = 'https://cmdb.example.com/api/devices'  # CMDB API endpoint (repl
 SNMP_EXPORTER_CONFIG_PATH = '/etc/snmp_exporter/snmp.yml'
 PROMETHEUS_CONFIG_PATH = '/etc/prometheus/prometheus.yml'
 GRAFANA_API_URL = 'http://localhost:3000/api'
-GRAFANA_API_KEY = 'your_grafana_api_key'
-GRAFANA_DASHBOARD_TEMPLATE_PATH = 'dashboard_template.json'  # Predefined Grafana dashboard template
+GRAFANA_API_KEY = 'grafana_api_key'
+GRAFANA_DASHBOARD_TEMPLATE_PATH = 'grafana_network_dashboard_template.json'  # Predefined Grafana dashboard template
 
 # Helper function to pull device data from CMDB
 def get_devices_from_cmdb():
